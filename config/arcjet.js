@@ -1,4 +1,4 @@
-import arcjet, { shield, detectBot, tokenBucket } from "@arcjet/next";
+import arcjet, { shield, detectBot, tokenBucket } from "@arcjet/node";
 import { ARCJET_KEY } from "./env.js";
 
 const aj = arcjet({
@@ -11,7 +11,10 @@ const aj = arcjet({
     // Block all automated clients — bots inflate AI costs
     detectBot({
         mode: "LIVE", // Blocks requests. Use "DRY_RUN" to log only
-        allow: [], // Block all bots. See https://arcjet.com/bot-list
+        allow: [
+            "CATEGORY:BROWSER",  // allow real browsers
+            "POSTMAN",           // allow Postman testing
+        ],
     }),
     // Enforce budgets to control AI costs. Adjust rates and limits as needed.
     tokenBucket({
